@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="dropdownModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Table_Country">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CountryName" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Table_State">
+          <Key>
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="StateId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StateName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="CountryId" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Table_State_Table_Country">
+          <End Role="Table_Country" Type="Self.Table_Country" Multiplicity="1" />
+          <End Role="Table_State" Type="Self.Table_State" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Table_State">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="dropdownModelStoreContainer">
+          <EntitySet Name="Table_Country" EntityType="Self.Table_Country" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Table_State" EntityType="Self.Table_State" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Table_State_Table_Country" Association="Self.FK_Table_State_Table_Country">
+            <End Role="Table_Country" EntitySet="Table_Country" />
+            <End Role="Table_State" EntitySet="Table_State" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dropdownModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Table_Country">
+          <Key>
+            <PropertyRef Name="CountryId" />
+          </Key>
+          <Property Name="CountryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CountryName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Table_State" Relationship="dropdownModel.FK_Table_State_Table_Country" FromRole="Table_Country" ToRole="Table_State" />
+        </EntityType>
+        <EntityType Name="Table_State">
+          <Key>
+            <PropertyRef Name="StateId" />
+          </Key>
+          <Property Name="StateId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StateName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CountryId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Table_Country" Relationship="dropdownModel.FK_Table_State_Table_Country" FromRole="Table_State" ToRole="Table_Country" />
+        </EntityType>
+        <EntityContainer Name="dropdownEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Table_Country" EntityType="Self.Table_Country" />
+          <EntitySet Name="Table_State" EntityType="Self.Table_State" />
+          <AssociationSet Name="FK_Table_State_Table_Country" Association="dropdownModel.FK_Table_State_Table_Country">
+            <End Role="Table_Country" EntitySet="Table_Country" />
+            <End Role="Table_State" EntitySet="Table_State" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_Table_State_Table_Country">
+          <End Type="dropdownModel.Table_Country" Role="Table_Country" Multiplicity="1" />
+          <End Type="dropdownModel.Table_State" Role="Table_State" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Table_Country">
+              <PropertyRef Name="CountryId" />
+            </Principal>
+            <Dependent Role="Table_State">
+              <PropertyRef Name="CountryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dropdownModelStoreContainer" CdmEntityContainer="dropdownEntities">
+          <EntitySetMapping Name="Table_Country">
+            <EntityTypeMapping TypeName="dropdownModel.Table_Country">
+              <MappingFragment StoreEntitySet="Table_Country">
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+                <ScalarProperty Name="CountryName" ColumnName="CountryName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Table_State">
+            <EntityTypeMapping TypeName="dropdownModel.Table_State">
+              <MappingFragment StoreEntitySet="Table_State">
+                <ScalarProperty Name="StateId" ColumnName="StateId" />
+                <ScalarProperty Name="StateName" ColumnName="StateName" />
+                <ScalarProperty Name="CountryId" ColumnName="CountryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
